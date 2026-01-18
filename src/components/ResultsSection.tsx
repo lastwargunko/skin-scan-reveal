@@ -1,24 +1,16 @@
 import { ResultCard, ClassificationResult } from "./ResultCard";
+import { LoadingAnimation } from "./LoadingAnimation";
 import { FileWarning } from "lucide-react";
 
 interface ResultsSectionProps {
   results: ClassificationResult[] | null;
   isLoading: boolean;
+  loadingStage?: "scanning" | "analyzing" | "processing";
 }
 
-export const ResultsSection = ({ results, isLoading }: ResultsSectionProps) => {
+export const ResultsSection = ({ results, isLoading, loadingStage = "scanning" }: ResultsSectionProps) => {
   if (isLoading) {
-    return (
-      <div className="w-full max-w-md mx-auto">
-        <div className="text-center py-8">
-          <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-primary/10 mb-4">
-            <div className="w-8 h-8 border-3 border-primary border-t-transparent rounded-full animate-spin" />
-          </div>
-          <p className="text-muted-foreground">Menganalisis gambar kulit Anda...</p>
-          <p className="text-sm text-muted-foreground mt-1">Mohon tunggu sebentar</p>
-        </div>
-      </div>
-    );
+    return <LoadingAnimation stage={loadingStage} />;
   }
 
   if (!results) {
@@ -40,7 +32,7 @@ export const ResultsSection = ({ results, isLoading }: ResultsSectionProps) => {
   }
 
   return (
-    <div className="w-full max-w-md mx-auto">
+    <div className="w-full max-w-md mx-auto animate-fade-in">
       <h2 className="font-display font-bold text-xl text-foreground mb-4 flex items-center gap-2">
         <span className="w-1.5 h-6 bg-primary rounded-full" />
         Hasil Analisis
